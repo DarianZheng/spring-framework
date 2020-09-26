@@ -95,7 +95,7 @@ configure(allprojects) { project ->
 
 			dependency "com.h2database:h2:1.4.200"
 			dependency "com.github.ben-manes.caffeine:caffeine:2.8.5"
-			dependency "com.github.librepdf:openpdf:1.3.22"
+			dependency "com.github.librepdf:openpdf:1.3.20"
 			dependency "com.rometools:rome:1.15.0"
 			dependency "commons-io:commons-io:2.5"
 			dependency "io.vavr:vavr:0.10.3"
@@ -196,7 +196,7 @@ configure(allprojects) { project ->
 					exclude group: "org.hamcrest", name: "hamcrest-core"
 				}
 			}
-			dependencySet(group: 'org.mockito', version: '3.5.13') {
+			dependencySet(group: 'org.mockito', version: '3.5.11') {
 				entry('mockito-core') {
 					exclude group: "org.hamcrest", name: "hamcrest-core"
 				}
@@ -288,6 +288,12 @@ configure(allprojects) { project ->
 			cacheChangingModulesFor 0, "seconds"
 		}
 		repositories {
+			// 新增以下2个阿里云镜像
+			maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }
+			maven { url "https://maven.aliyun.com/nexus/content/repositories/jcenter" }
+			// 新增 spring 插件库
+			maven { url "https://repo.spring.io/plugins-release" }
+
 			mavenCentral()
 			maven { url "https://repo.spring.io/libs-spring-framework-build" }
 			maven { url "https://repo.spring.io/milestone" } // Reactor
@@ -405,11 +411,11 @@ configure(rootProject) {
 		def projectDirs = allprojects.collect { it.projectDir } + "${rootDir}/buildSrc"
 		projectDirs.forEach { dir ->
 			[ 'bin', 'build', 'out', '.settings' ]
-				.collect { rootPath.relativize(new File(dir, it).toPath()) }
-				.forEach { source.exclude "$it/**" }
+					.collect { rootPath.relativize(new File(dir, it).toPath()) }
+					.forEach { source.exclude "$it/**" }
 			[ '.classpath', '.project' ]
-				.collect { rootPath.relativize(new File(dir, it).toPath()) }
-				.forEach { source.exclude "$it" }
+					.collect { rootPath.relativize(new File(dir, it).toPath()) }
+					.forEach { source.exclude "$it" }
 		}
 	}
 
